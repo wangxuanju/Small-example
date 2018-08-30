@@ -1,23 +1,23 @@
-package cn.sxt.game;
+package game;
 
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
-//·É»úÀà¼Ì³ĞÎïÌåÀà,¶¨Òå´ø²ÎµÄ¹¹Ôì·½·¨
-//¶¨ÒådrawSelf·½·¨¡¢addDirection·½·¨¡¢minusDirection·½·¨¡£
-//ÒıÓÃGraphicsÖĞµÄdrawImage()·½·¨¡£
-////ÒıÓÃImageÖĞµÄgetWidth()·½·¨getHeight()·½·¨
-//ÒıÓÃKeyEventÖĞµÄgetKeyCode()Àà¡£
-//KeyEvent.VK_LEFTµÈËÄ¸ö³£Á¿¡£
+//é£æœºç±»ç»§æ‰¿ç‰©ä½“ç±»,å®šä¹‰å¸¦å‚çš„æ„é€ æ–¹æ³•
+//å®šä¹‰drawSelfæ–¹æ³•ã€addDirectionæ–¹æ³•ã€minusDirectionæ–¹æ³•ã€‚
+//å¼•ç”¨Graphicsä¸­çš„drawImage()æ–¹æ³•ã€‚
+////å¼•ç”¨Imageä¸­çš„getWidth()æ–¹æ³•getHeight()æ–¹æ³•
+//å¼•ç”¨KeyEventä¸­çš„getKeyCode()ç±»ã€‚
+//KeyEvent.VK_LEFTç­‰å››ä¸ªå¸¸é‡ã€‚
 public class Plane  extends GameObject {
 	boolean  left,up,right,down;
 	
 	boolean  live = true;  
-	//µ±·É»úliveÊ±°´¼üÀ´µ÷ÕûÎ»ÖÃ
-	//GameObjectÒ²ÓĞdrawSelf·½·¨
+	//å½“é£æœºliveæ—¶æŒ‰é”®æ¥è°ƒæ•´ä½ç½®
+	//GameObjectä¹Ÿæœ‰drawSelfæ–¹æ³•
 	public  void  drawSelf(Graphics  g){
 		if(live){
-				g.drawImage(img, (int)x,(int) y, null);//ÒıÓÃGraphicsÖĞµÄdrawImage()·½·¨¡£
+				g.drawImage(img, (int)x,(int) y, null);//å¼•ç”¨Graphicsä¸­çš„drawImage()æ–¹æ³•ã€‚
 				
 				if(left){
 					x -=speed;
@@ -44,13 +44,13 @@ public class Plane  extends GameObject {
 		this.x = x;
 		this.y = y;
 		this.speed = 3;
-		this.width = img.getWidth(null) ;//ÒıÓÃImageÖĞµÄgetWidth()·½·¨
-		this.height = img.getHeight(null);//ÒıÓÃImageÖĞµÄgetHeight()·½·¨
+		this.width = img.getWidth(null) ;//å¼•ç”¨Imageä¸­çš„getWidth()æ–¹æ³•
+		this.height = img.getHeight(null);//å¼•ç”¨Imageä¸­çš„getHeight()æ–¹æ³•
 		
 	}
 	
-	//°´ÏÂÄ³¸ö¼ü£¬Ôö¼ÓÏàÓ¦µÄ·½Ïò
-	public  void   addDirection(KeyEvent  e){//ÒıÓÃKeyEventÖĞµÄgetKeyCode()Àà¡£
+	//æŒ‰ä¸‹æŸä¸ªé”®ï¼Œå¢åŠ ç›¸åº”çš„æ–¹å‘
+	public  void   addDirection(KeyEvent  e){//å¼•ç”¨KeyEventä¸­çš„getKeyCode()ç±»ã€‚
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 			left = true;
@@ -67,9 +67,9 @@ public class Plane  extends GameObject {
 		}
 	}
 	
-	//°´ÏÂÄ³¸ö¼ü£¬È¡ÏûÏàÓ¦µÄ·½Ïò
+	//æŒ‰ä¸‹æŸä¸ªé”®ï¼Œå–æ¶ˆç›¸åº”çš„æ–¹å‘
 		public  void   minusDirection(KeyEvent  e){
-			switch (e.getKeyCode()) {//KeyEventµÄgetKeyCode·½·¨¡£
+			switch (e.getKeyCode()) {//KeyEventçš„getKeyCodeæ–¹æ³•ã€‚
 			case KeyEvent.VK_LEFT:
 				left = false;
 				break;
