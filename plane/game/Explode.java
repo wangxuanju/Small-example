@@ -1,24 +1,24 @@
-package cn.sxt.game;
+package game;
 
 import java.awt.Graphics;
 import java.awt.Image;
 
 /*
- * ±¬Õ¨Àà
+ * çˆ†ç‚¸ç±»
  */
-//±¬Õ¨Àà,Ò»¸ö´ø²ÎµÄ¹¹Ôì·½·¨¡£×Ô¶¨ÒåµÄdraw·½·¨ºÍ¾²Ì¬´úÂë¿é¡£
-//µ÷ÓÃGameUtilÀàÖĞµÄgetImage()·½·¨
-//GraphicsµÄÊ¹ÓÃ;GraphicsµÄdrawImage·½·¨¡¢
+//çˆ†ç‚¸ç±»,ä¸€ä¸ªå¸¦å‚çš„æ„é€ æ–¹æ³•ã€‚è‡ªå®šä¹‰çš„drawæ–¹æ³•å’Œé™æ€ä»£ç å—ã€‚
+//è°ƒç”¨GameUtilç±»ä¸­çš„getImage()æ–¹æ³•
+//Graphicsçš„ä½¿ç”¨;Graphicsçš„drawImageæ–¹æ³•ã€
 //
 //
 public class Explode {
 	double x, y;
 	int count;
-	//±¬Õ¨µÄÎ»ÖÃ£¬ÉèÎª¾²Ì¬³õÊ¼»¯¿é¡£
-	static Image[] imgs = new Image[16];//ÖØÄÑµã£¿£¿£¿
+	//çˆ†ç‚¸çš„ä½ç½®ï¼Œè®¾ä¸ºé™æ€åˆå§‹åŒ–å—ã€‚
+	static Image[] imgs = new Image[16];//é‡éš¾ç‚¹ï¼Ÿï¼Ÿï¼Ÿ
 	static {
 		for (int i = 0; i < 16; i++) {
-			imgs[i] = GameUtil.getImage("images/explode/e" + (i + 1) + ".gif");//µ÷ÓÃGameUtilÀàÖĞµÄgetImage()·½·¨¡£
+			imgs[i] = GameUtil.getImage("images/explode/e" + (i + 1) + ".gif");//è°ƒç”¨GameUtilç±»ä¸­çš„getImage()æ–¹æ³•ã€‚
 			imgs[i].getWidth(null);
 		}
 	}
