@@ -527,7 +527,7 @@ String和StringBuilder的区别：
 	StringBuilder的内容是可变的
 ## +=拼接字符串耗费内存原因:
 每次拼接都会产生新的字符串对象,而利用StringBuilder来拼接字符串自始至终用的都是同一个StringBuilder容器
-## 3.2StringBuilder类的常用方法
+## StringBuilder类的常用方法
   A:构造方法:
      StringBuilder()
   B:成员方法:
@@ -537,20 +537,9 @@ String和StringBuilder的区别：
      public StringBuilder reverse():反转功能
 ```java
  * StringBuilder:是一个可变的字符串。字符串缓冲区类。
- * 
  * String和StringBuilder的区别：
  * 		String的内容是固定的。
  * 		StringBuilder的内容是可变的。
- * 
- * 构造方法：
- * 		StringBuilder()
- * 
- * 成员方法：
- * 		public int capacity():返回当前容量
- * 		public int length():返回长度（字符数）
- * 
- * 		容量：理论值
- * 		长度：实际值
  */
 public class StringBuilderDemo {
 	public static void main(String[] args) {
@@ -562,8 +551,213 @@ public class StringBuilderDemo {
 	}
 }
 ```
+```java
+/*
+ * 添加功能
+ *		public StringBuilder append(任意类型):添加数据，并返回自身对象
+ * 反转功能
+ *		public StringBuilder reverse()
+ */
+public class StringBuilderDemo {
+	public static void main(String[] args) {
+		//创建对象
+		StringBuilder sb = new StringBuilder();
+		
+		//public StringBuilder append(任意类型)
+		//StringBuilder sb2 = sb.append("hello");
+		
+		/*
+		System.out.println("sb:"+sb);
+		System.out.println("sb2:"+sb2);
+		System.out.println(sb == sb2); //true
+		*/
+		
+		/*
+		sb.append("hello");
+		sb.append("world");
+		sb.append(true);
+		sb.append(100);
+		*/
+		
+		//链式编程
+		sb.append("hello").append("world").append(true).append(100);
+		
+		System.out.println("sb:"+sb);
+		
+		//public StringBuilder reverse()
+		sb.reverse();
+		System.out.println("sb:"+sb);	
+	}
+}
+```
+## StringBuilder案例
+### 案例一需求:
+StringBuilder和String通过方法完成相互转换
+```java
+/*
+ * StringBuilder和String的相互转换
+ * 
+ * StringBuilder -- String
+ * 		public String toString():通过toString()就可以实现把StringBuilder转成String
+ * 
+ * String -- StringBuilder
+ * 		StringBuilder(String str):通过构造方法就可以实现把String转成StringBuilder
+ */
+public class StringBuilderTest {
+	public static void main(String[] args) {
+		//StringBuilder -- String
+		/*
+		StringBuilder sb = new StringBuilder();
+		sb.append("hello").append("world");
+		
+		String s = sb.toString();
+		System.out.println(s);
+		*/
+		
+		//String -- StringBuilder
+		String s = "helloworld";
+		StringBuilder sb = new StringBuilder(s);
+		System.out.println(sb);
+	}
+}
+```
+### 案例二需求:
+利用StringBuilder把数组拼接成一个字符串
+   举例：
+  		int[] arr = {1,2,3};
+   结果：
+                [1, 2, 3]
+```java
+/*
+ * 把数组拼接成一个字符串
+ * 举例：
+ * 		int[] arr = {1,2,3};
+ * 结果：
+ * 		[1, 2, 3]
+ */
+public class StringBuilderTest2 {
+	public static void main(String[] args) {
+		//定义一个数组
+		int[] arr = {1,2,3};
+		//写方法实现拼接
+		//调用方法
+		String s = arrayToString(arr);
+		//输出结果
+		System.out.println("s:"+s);
+	}
+	/*
+	 * 两个明确：
+	 * 		返回值类型：String
+	 * 		参数列表：int[] arr
+	 */
+	public static String arrayToString(int[] arr) {
+		StringBuilder sb = new StringBuilder();
+		//[1, 2, 3]
+		sb.append("[");
+		for(int x=0; x<arr.length; x++) {
+			if(x==arr.length-1) {
+				sb.append(arr[x]);
+			}else {
+				sb.append(arr[x]).append(", ");
+			}
+		}
+		sb.append("]");
+		
+		String result = sb.toString();
+		
+		return result;
+	}
+}
+```
+### 案例三需求:
+利用StringBuilder完成字符串反转
+```java
+import java.util.Scanner;
 
-
-
-
-
+/*
+ * 把字符串反转
+ * 
+ * 分析：
+ * 		A:键盘录入一个字符串
+ * 		B:写方法实现反转
+ * 			String -- StringBuilder -- reverse() -- String
+ * 		C:调用方法
+ * 		D:输出结果
+ */
+public class StringBuilderTest3 {
+	public static void main(String[] args) {
+		//键盘录入一个字符串
+		Scanner sc = new Scanner(System.in);
+		System.out.println("请输入一个字符串：");
+		String s = sc.nextLine();
+		
+		//写方法实现反转
+		
+		//调用方法
+		String result = myReverse(s);
+		
+		//输出结果
+		System.out.println("result:"+result);
+	}
+	
+	/*
+	 * 两个明确：
+	 * 		返回值类型：String
+	 * 		参数列表：String
+	 */
+	public static String myReverse(String s) {
+		//String -- StringBuilder -- reverse() -- String
+		StringBuilder sb = new StringBuilder(s);
+		sb.reverse();
+		String result = sb.toString();
+		return result;
+	}
+}
+```
+### 案例四需求:
+ 判断一个字符串是否是对称字符串
+ 例如"abc"不是对称字符串，"aba"、"abba"、"aaa"、"mnanm"是对称字符串
+```java
+import java.util.Scanner;
+/*
+ * 判断一个字符串是否是对称字符串
+ * 例如"abc"不是对称字符串，"aba"、"abba"、"aaa"、"mnanm"是对称字符串
+ * 
+ * 分析：
+ * 		A:键盘录入一个字符串
+ * 		B:写方法实现判断一个字符串是否是对称字符串
+ * 			把字符串反转，和反转前的字符串进行比较，如果内容相同，就说明是对称字符串
+ * 		C:调用方法
+ * 		D:输出结果
+ */
+public class StringBuilderTest4 {
+	public static void main(String[] args) {
+		//键盘录入一个字符串
+		Scanner sc = new Scanner(System.in);
+		System.out.println("请输入一个字符串：");
+		String s = sc.nextLine();
+		
+		//写方法实现判断一个字符串是否是对称字符串
+		
+		//调用方法
+		boolean b = isSymmetry(s);
+		
+		//输出结果
+		System.out.println("b:"+b);
+	}
+	
+	/*
+	 * 两个明确：
+	 * 		返回值类型：boolean
+	 * 		参数列表：String s
+	 */
+	public static boolean isSymmetry(String s) {
+		//把字符串反转，和反转前的字符串进行比较，如果内容相同，就说明是对称字符串
+		StringBuilder sb = new StringBuilder(s);
+		sb.reverse();
+		String result = sb.toString();
+		
+		return result.equals(s);
+	}
+}
+```
