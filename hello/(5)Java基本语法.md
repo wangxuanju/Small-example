@@ -1,14 +1,23 @@
 # 一、Random
 ## 产生随机数的类---Random:
  作用：–用于产生一个随机数
+ 
 •使用步骤(和Scanner类似)
+
 –导包
+
 •import java.util.Random;
+
 –创建对象
+
 •Random r = new Random();
+
 –获取随机数
+
 •int number = r.nextInt(10);
+
 •产生的数据在0到10之间，包括0，不包括10。
+
 •括号里面的10是可以变化的，如果是100，就是0-100之间的数据
 ```java
 import java.util.Random;
