@@ -56,7 +56,9 @@ public class RandomTest {
 # 二、数组
 ## 动态初始化:
 初始化时只指定数组长度，由系统为数组分配初始值
+
 格式：数据类型[] 数组名 = new 数据类型[数组长度];
+
 数组长度其实就是数组中元素的个数。
 ```java
 /*
@@ -127,10 +129,15 @@ public class ArrayDemo2 {
 ## 三、数组的内存分配
 ### JVM内存划分
 Java程序在运行时，需要在内存中的分配空间。为了提高运算效率，就对空间进行了不同区域的划分，因为每一片区域都有特定的处理数据方式和内存管理方式。
+
 栈 存储局部变量
+
 堆 存储new出来的东西
+
 方法区 (面向对象进阶讲)
+
 本地方法区 (和系统相关)
+
 寄存器 (给CPU使用)
 ### 一个数组的内存图
 定义一个数组，输出数组名及元素。然后给数组中的元素赋值，再次输出数组名及元素
@@ -240,12 +247,19 @@ public class ArrayTest3 {
 ```
 ## 二维数组格式
 定义格式
+
 数据类型[][] 数组名;
+
 数据类型 数组名[][]; 不推荐
+
 数据类型[] 数组名[]; 不推荐
+
 初始化方式
+
 数据类型[][] 变量名 = new 数据类型[m][n];
+
 数据类型[][] 变量名 = new 数据类型[][]{{元素…},{元素…},{元素…}};
+
 简化版格式：数据类型[][] 变量名 = {{元素…},{元素…},{元素…}};
 ```java
 public class ArrayArrayTest {
@@ -521,6 +535,66 @@ public class MethodTest2 {
 		}
 		
 		return max;
+	}
+}
+```
+# 五、其它
+## 三种循环的区别
+### 区别概述
+虽然可以完成同样的功能，但是还是有小区别：
+
+do…while循环至少会执行一次循环体。
+
+for循环和while循环只有在条件成立的时候才会去执行循环体
+
+for循环语句和while循环语句的小区别：
+
+使用区别：控制条件语句所控制的那个变量，在for循环结束后，就不能再被访问到了，而while循环结束还可以继续使用，如果你想继续使用，就用while，否则推荐使用for。原因是for循环结束，该变量就从内存中消失，能够提高内存的使用效率。
+## continue的作用：
+单层循环对比break，然后总结两个的区别
+
+break  退出当前循环
+
+continue  退出本次循环
+
+## 键盘录入的基本步骤
+### 键盘录入数据概述
+我们目前在写程序的时候，数据值都是固定的，但是实际开发中，数据值肯定是变化的，所以，把数据改进为键盘录入，提高程序的灵活性。
+
+键盘录入数据的步骤:
+
+A:导包(位置放到class定义的上面)
+	import java.util.Scanner;
+B:创建对象
+	Scanner sc = new Scanner(System.in);
+C:接收数据
+	int x = sc.nextInt();
+	
+```java
+import java.util.Scanner;
+/*
+ * 键盘录入三个数据，获取这三个数据中的最大值
+ */
+public class ScannerTest3 {
+	public static void main(String[] args) {
+		// 创建对象
+		Scanner sc = new Scanner(System.in);
+
+		// 接收数据
+		System.out.println("请输入第一个数据：");
+		int a = sc.nextInt();
+
+		System.out.println("请输入第二个数据：");
+		int b = sc.nextInt();
+
+		System.out.println("请输入第三个数据：");
+		int c = sc.nextInt();
+
+		// 如何获取三个数据的最大值
+		int temp = (a > b ? a : b);
+		int max = (temp > c ? temp : c);
+
+		System.out.println("max:" + max);
 	}
 }
 ```
