@@ -10,41 +10,301 @@
 •int number = r.nextInt(10);
 •产生的数据在0到10之间，包括0，不包括10。
 •括号里面的10是可以变化的，如果是100，就是0-100之间的数据
+```java
+import java.util.Random;
+import java.util.Scanner;
+/*
+ * 猜数字小游戏案例
+ *		系统产生一个1-100之间的随机数，请猜出这个数据是多少。
+ * 分析：
+ * 		A:系统产生一个随机数1-100之间的。
+ * 			int number = r.nextInt(100) + 1;
+ * 		B:键盘录入我们要猜的数据
+ * 			用Scanner实现
+ *		C:比较这两个数据(用if语句)
+ *			大了：给出提示大了
+ *			小了：给出提示小了
+ *			猜中了：给出提示，恭喜你，猜中了
+ *		D:多次猜数据，而我们不知道要猜多少次，怎么办呢?
+ *			while(true) {循环的内容}
+ */
+public class RandomTest {
+	public static void main(String[] args) {
+		// 系统产生一个随机数1-100之间的。
+		Random r = new Random();
+		int number = r.nextInt(100) + 1;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		while(true){
+			// 键盘录入我们要猜的数据
+			Scanner sc = new Scanner(System.in);
+			System.out.println("请输入你要猜的数字(1-100)：");
+			int guessNumber = sc.nextInt();
+	
+			// 比较这两个数据(用if语句)
+			if (guessNumber > number) {
+				System.out.println("你猜的数据" + guessNumber + "大了");
+			} else if (guessNumber < number) {
+				System.out.println("你猜的数据" + guessNumber + "小了");
+			} else {
+				System.out.println("恭喜你,猜中了");
+				break;
+			}
+		}
+	}
+}
+```
 # 二、数组
+## 动态初始化:
+初始化时只指定数组长度，由系统为数组分配初始值
+格式：数据类型[] 数组名 = new 数据类型[数组长度];
+数组长度其实就是数组中元素的个数。
+```java
+/*
+ * 定义格式：
+ * 		A:数据类型[] 数组名;
+ * 		B:数据类型 数组名[];
+ * 举例：
+ * 		A:int[] a; 定义一个int类型的数组，数组名是a
+ * 		B:int a[]; 定义一个int类型的变量，变量名是a数组
+ * 
+ * 数组初始化：
+ * 		A:所谓初始化，就是为数组开辟内存空间，并为数组中的每个元素赋予初始值
+ * 		B:我们有两种方式对数组进行初始化
+ * 			a:动态初始化	只指定长度，由系统给出初始化值
+ * 			b:静态初始化	给出初始化值，由系统决定长度
+ * 
+ * 动态初始化：
+ * 		数据类型[] 数组名 = new 数据类型[数组长度];
+ */
+public class ArrayDemo {
+	public static void main(String[] args) {
+		//数据类型[] 数组名 = new 数据类型[数组长度];
+		int[] arr = new int[3];
+		/*
+		 * 左边：
+		 * 		int:说明数组中的元素的数据类型是int类型
+		 * 		[]:说明这是一个数组
+		 * 		arr:是数组的名称
+		 * 右边：
+		 * 		new:为数组分配内存空间
+		 * 		int:说明数组中的元素的数据类型是int类型
+		 * 		[]:说明这是一个数组
+		 * 		3:数组的长度，其实就是数组中的元素个数
+		 */
+	
+	}
+}
+```
+### 静态初始化
+初始化时指定每个数组元素的初始值，由系统决定数组长度
+```java
+/*
+ * 静态初始化的格式：
+ * 		数据类型[] 数组名 = new 数据类型[]{元素1,元素2,...};
+ * 
+ * 		简化格式：
+ * 			数据类型[] 数组名 = {元素1,元素2,...};
+ * 
+ * 		举例：
+ * 			int[] arr = new int[]{1,2,3};
+ * 
+ * 		简化后：
+ * 			int[] arr = {1,2,3};
+ */
+public class ArrayDemo2 {
+	public static void main(String[] args) {
+		//定义数组
+		int[] arr = {1,2,3};
+		
+		//输出数组名和元素
+		System.out.println(arr);
+		System.out.println(arr[0]);
+		System.out.println(arr[1]);
+		System.out.println(arr[2]);
+	}
+}
+```
+## 三、数组的内存分配
+### JVM内存划分
+Java程序在运行时，需要在内存中的分配空间。为了提高运算效率，就对空间进行了不同区域的划分，因为每一片区域都有特定的处理数据方式和内存管理方式。
+栈 存储局部变量
+堆 存储new出来的东西
+方法区 (面向对象进阶讲)
+本地方法区 (和系统相关)
+寄存器 (给CPU使用)
+### 一个数组的内存图
+定义一个数组，输出数组名及元素。然后给数组中的元素赋值，再次输出数组名及元素
+```java
+/*
+ * 需求：定义一个数组，输出数组名及元素。然后给数组中的元素赋值，再次输出数组名及元素。
+ */
+public class ArrayTest {
+	public static void main(String[] args) {
+		//定义一个数组
+		int[] arr = new int[3];
+		
+		//输出数组名及元素
+		System.out.println(arr);
+		System.out.println(arr[0]);
+		System.out.println(arr[1]);
+		System.out.println(arr[2]);
+		
+		//给数组中的元素赋值
+		arr[0] = 100;
+		arr[2] = 200;
+		
+		//再次输出数组名及元素
+		System.out.println(arr);
+		System.out.println(arr[0]);
+		System.out.println(arr[1]);
+		System.out.println(arr[2]);
+	}
+}
+```
+### 两个数组的内存图
+```java
+/*
+ * 需求：定义两个数组，分别输出数组名及元素。然后分别给数组中的元素赋值，分别再次输出数组名及元素。
+ */
+public class ArrayTest2 {
+	public static void main(String[] args) {
+		//定义两个数组
+		int[] arr = new int[2];
+		int[] arr2 = new int[3];
+		
+		//分别输出数组名及元素
+		System.out.println(arr);
+		System.out.println(arr[0]);
+		System.out.println(arr[1]);
+		
+		System.out.println(arr2);
+		System.out.println(arr2[0]);
+		System.out.println(arr2[1]);
+		System.out.println(arr2[2]);
+		
+		//然后分别给数组中的元素赋值
+		arr[1] = 100;
+		
+		arr2[0] = 200;
+		arr2[2] = 300;
+		
+		//再次输出数组名及元素
+		System.out.println(arr);
+		System.out.println(arr[0]);
+		System.out.println(arr[1]);
+		
+		System.out.println(arr2);
+		System.out.println(arr2[0]);
+		System.out.println(arr2[1]);
+		System.out.println(arr2[2]);
+	}
+}
+```
+### 两个数组指向同一个地址的内存图
+```java
+/*
+ * 需求：定义两个数组，先定义一个数组，赋值，输出。然后定义第二个数组的时候把第一个数组的地址赋值给第二个数组。
+ * 然后给第二个数组赋值，再次输出两个数组的名及元素。
+ */
+public class ArrayTest3 {
+	public static void main(String[] args) {
+		// 先定义一个数组，赋值，输出
+		int[] arr = new int[3];
+		arr[0] = 100;
+		arr[1] = 200;
+		arr[2] = 300;
+		System.out.println(arr);
+		System.out.println(arr[0]);
+		System.out.println(arr[1]);
+		System.out.println(arr[2]);
 
+		// 然后定义第二个数组的时候把第一个数组的地址赋值给第二个数组
+		int[] arr2 = arr;
+		// 然后给第二个数组赋值
+		arr2[0] = 111;
+		arr2[1] = 222;
+		arr2[2] = 333;
 
+		// 再次输出两个数组的名及元素
+		System.out.println(arr);
+		System.out.println(arr[0]);
+		System.out.println(arr[1]);
+		System.out.println(arr[2]);
 
+		System.out.println(arr2);
+		System.out.println(arr2[0]);
+		System.out.println(arr2[1]);
+		System.out.println(arr2[2]);
+	}
+}
+```
+## 二维数组格式
+定义格式
+数据类型[][] 数组名;
+数据类型 数组名[][]; 不推荐
+数据类型[] 数组名[]; 不推荐
+初始化方式
+数据类型[][] 变量名 = new 数据类型[m][n];
+数据类型[][] 变量名 = new 数据类型[][]{{元素…},{元素…},{元素…}};
+简化版格式：数据类型[][] 变量名 = {{元素…},{元素…},{元素…}};
+```java
+public class ArrayArrayTest {
+	public static void main(String[] args) {
+		// 定义二维数组
+		int[][] arr = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
 
+		// 二维数组中的一维数组名称：二维数组名[索引]
+		// arr[0] 其实就是二维数组中的第一个一维数组的名称
+		// arr[1] 其实就是二维数组中的第二个一维数组的名称
+		// arr[2] 其实就是二维数组中的第三个一维数组的名称
 
+		// for (int x = 0; x < arr[0].length; x++) {
+		// System.out.println(arr[0][x]);
+		// }
 
+		// System.out.println("hello");
+		// System.out.println("world");
+		// System.out.print("hello");
+		// System.out.print("world");
 
+		/*
+		// 第一个一维数组的元素
+		for (int x = 0; x < arr[0].length; x++) {
+			System.out.print(arr[0][x] + "  ");
+		}
+		System.out.println();
 
+		// 第二个一维数组的元素
+		for (int x = 0; x < arr[1].length; x++) {
+			System.out.print(arr[1][x] + "  ");
+		}
+		System.out.println();
 
-# 三、方法
+		// 第三个一维数组的元素
+		for (int x = 0; x < arr[2].length; x++) {
+			System.out.print(arr[2][x] + "  ");
+		}
+		System.out.println();
+		*/
+		
+//		for(int y=0; y<3; y++) {
+//			for (int x = 0; x < arr[y].length; x++) {
+//				System.out.print(arr[y][x] + "  ");
+//			}
+//			System.out.println();
+//		}
+		
+		for(int y=0; y<arr.length; y++) {
+			for (int x = 0; x < arr[y].length; x++) {
+				System.out.print(arr[y][x] + "  ");
+			}
+			System.out.println();
+		}
+
+	}
+}
+```
+# 四、方法
 ##   方法重载
 ```java  //方法重载练习之比较数据是否相等
 /*
@@ -264,7 +524,3 @@ public class MethodTest2 {
 	}
 }
 ```
-
-
-
-
