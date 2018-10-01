@@ -326,6 +326,45 @@ ServletContext是一个域对象.
 ##### 用来读取web项目下的文件.
 
 # 三、requet&response
+## Response
+通过response设置状态码：setStatus(int status);
+
+通过response设置响应头：setHeader(String name,String value);,setIntHeader(String name,int value),setDateHeader(String name,long date);
+
+通过response设置响应体：getOutputStream(),getWriter();
+
+response的其他的API:
+     * sendRedirect(String path);
+     
+response输出中文的乱码问题:
+     * 字节流输出中文:
+         * 设置浏览器的字符集编码.   response.setHeader(“Content-Type”,”text/html;charset=UTF-8”);
+         * 设置输出内容的字节数组的字符集编码.		“”.getBytes(“UTF-8”);
+     * 字符流输出中文:
+         * 设置浏览器字符集编码.		response.setHeader(“Content-Type”,”text/html;charset=UTF-8”);
+         * 设置response的缓冲区的编码.		response.setCharacterEncoding(“UTF-8”);
+	 
+response完成了文件下载功能:
+
+## Request
+### 使用request获得客户机的信息.
+getRemoteAddr(),getMethod(),getRequestURI(),getRequestURL()
+
+### 获得请求参数:
+getParameter(),getParameterValues(),getParameterMap();
+
+### 作为域对象存取数据:
+setAttribute(),getAttribute(),removeAttribute();
+
+### 接收参数的中文乱码的处理:
+    * GET	:new String(“”.getBytes(“ISO-8859-1”),”UTF-8”)
+    * POST	:request.setCharacterEncoding(“UTF-8”);
+    
+### request何时创建和销毁的?
+    * 创建:从客户端向服务器发送请求.那么服务器创建一个request对象.
+    * 销毁:服务器为这次请求作出了响应之后,服务器就会销毁request对象.
+    * 作用范围:一次请求.
+    
 ## response处理中文乱码
 ### 字节流：
 设置浏览器默认打开编码
@@ -490,15 +529,282 @@ request.getRequestDispatcher(String path).forward(request,response);
 登录失败就可以保存一个错误信息到request中在动态页面中取出这个值${msg}
 
 # 四、Cookie&Session
+## 记录用户的上次登陆访问时间
+### 需求:
+用户登录完成后,显示您是第x位访问的用户,您的上次访问时间是:yyyy-MM-dd.
 
+* 如果第一次访问的话，只显示您是第x位用户.
 
+* 如果不是第一次访问的话,显示您是第x位访问的用户,您的上次访问时间是:yyyy-MM-dd.
+### 会话技术
+#### 什么是会话
+用户打开一个浏览器访问页面,访问网站的很多页面,访问完成后将浏览器关闭的过程称为是一次会话.
 
+#### 常见的会话技术
 
+* Cookie	:将数据保存到客户端浏览器.
 
+* Session	:将数据保存到服务器端.
 
+#### 为什么使用会话技术?
+* 私有的数据,购物信息数据保存在会话技术中.
+参见图一和图二
+使用会话技术:
 
+## Cookie技术的使用】
+向浏览器保存数据:
+HttpServletResponse有一个方法:
+* void addCookie(Cookie cookie);
+获得浏览器带过来的Cookie:
+HttpServletRequest有一个方法:
+* Cookie[] getCookies();
+创建一个Cookie对象:
+* Cookie(String name,String value);
 
+## JSP的简单概述
+什么是JSP	:Java Server Pages(Java服务器端页面).JSP = Java代码 + HTML的元素 + JSP内置东西
+SUN公司为什么推出JSP动态网页开发技术:
+* SUN公司推出的Servlet技术进行动态网页开发.发现Servlet自身有不足没有办法与ASP,PHP技术竞争.想在动态网页中输出表单.在Servlet中获得PrintWriter out = response.getWriter();
+* out.println(“<form action=’’ method=’’>”);
+* out.println(“</form>”);
+* SUN又推出了动态的网页开发技术就是JSP.
 
+## JSP的执行过程
+* JSP会被翻译成Servlet,编译成class进行执行的.
+JSP的嵌入Java代码:JSP的脚本元素
+* <%!    %>:翻译成类中的成员部分. 定义变量,定义方法,定义类.Servlet是线程不安全的,尽量少在类中定义成员属性！！
+* <%     %>:翻译成类的service方法内部的内容. 定义变量,定义类,直接写代码块.
+* <%=    %>:翻译成service方法内部的out.print();
+```java
+步骤分析:
+【步骤一】：准备登陆的案例.
+【步骤二】：在统计人数的Servlet中.判断是否是第一次访问.
+【步骤三】：根据是否是第一次显示不同的信息，同时将当前的时候保存到Cookie中.
+public class CountServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/html;charset=UTF-8");
+		Integer count = (Integer) this.getServletContext().getAttribute("count");
+                //response.getWriter().println("<h1>现在网站被访问的次数为:"+count+"</h1>");
+		
+		/**
+		 * 获得浏览器中带过来的所有的Cookie信息,从数组中查找有没有指定名称的Cookie
+		 * 判断用户是否是第一次访问:(从数组中没有找到指定名称的Cookie)
+		 * * 如果是第一次:显示欢迎,记录当前访问的时间存入到Cookie中.
+		 * * 如果不是第一次:显示欢迎,上一次访问时间,同时记录当前访问的时间存入到Cookie中。
+		 */
+		// 获得浏览器带过来的所有的Cookie:
+		Cookie[] cookies = request.getCookies();
+		// 从数组中查找指定名称的Cookie:
+		Cookie cookie = CookieUtils.findCookie(cookies, "lastVisit");
+		// 判断是否是第一次:
+		if(cookie == null){
+			// 第一次访问
+			response.getWriter().println("您是第"+count+"位访客!");
+		}else{
+			// 不是第一次
+			Long l = Long.parseLong(cookie.getValue());
+			Date d = new Date(l);
+			response.getWriter().println("您是第"+count+"位访客! 上次访问时间是:"+d.toLocaleString());
+		}
+		// 创建一个Cookie对象:
+		Cookie c = new Cookie("lastVisit",""+System.currentTimeMillis());
+		// 保存到浏览器端:
+		response.addCookie(c);
+	}
 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
 
+}
+```
+## Cookie的常用API:
+### Cookie的常用的API：
+```java
+* getName();
+* getValue();
+* setDomain(String domain); -- 设置Cookie的有效域名. //  www.baidu.com  music.baidu.com
+* setPath(String path); -- 设置Cookie的有效路径.
+* setMaxAge(int maxAge); -- 设置Cookie的有效时间.
+```
+### Cookie的分类有关:
+* 会话级别的Cookie:默认的Cookie.关闭浏览器Cookie就会销毁.
+* 持久级别的Cookie:可以设置Cookie的有效时间.那么关闭浏览器Cookie还会存在. 手动销毁持久性Cookie. setMaxAge(0)---前提是有效路径必须一致.
+```java      //记录用户的商品浏览记录
+步骤分析:
+【步骤一】：在登录完成后，显示商品列表页面.
+【步骤二】：为商品列表页面做一些准备工作.
+【步骤三】：点击某个商品,将商品ID传递一个Servlet.
+【步骤四】：在Servlet中:判断是否是第一次浏览商品
+【步骤五】：如果是第一次：将商品的ID存入到Cookie中即可.
+【步骤六】：如果不是第一次：判断该商品是否已经浏览了.
+【步骤七】：如果浏览器过.删除之前元素,将该元素添加到最前面.
+【步骤八】：如果没有浏览过该商品.判断最大长度，没有超过限制,直接加到最前,如果已经超过限制,删除最后一个，将其插入到最前.
+public class ProductServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/**
+		 * * 接收商品id.
+		 * * 接收从客户端带过来的所有Cookie.
+		 * * 从Cookie的数组中查找指定名称的Cookie.
+		 * * 判断是否是第一次浏览商品:
+		 *     * 第一次浏览商品
+		 *        * 直接将商品的ID存入到Cookie.
+		 *        * 将Cookie回写到浏览器.
+		 *     * 不是第一次浏览商品 1-2
+		 *        * 判断当前的商品是否已经在浏览记录.
+		 *            * 已经存在: 2-1 移除当前元素，将当前元素添加到最开始.
+		 *            * 没在浏览记录中: 
+		 *                * 判断是否已经超过了最大长度:如果超过 2-1-3:删除最后一个 将当前元素添加到最前面.
+		 *                * 没有超过:直接将该元素添加到最前位置.
+		 *        * 将转换的id的值存入到Cookie,回写浏览器.
+		 */
+		// 接收id:
+		String id = request.getParameter("id");
+		// 获得所有的Cookie的信息:
+		Cookie[] cookies = request.getCookies();
+		// 判断是否是第一次:
+		Cookie cookie = CookieUtils.findCookie(cookies, "history");
+		if(cookie == null){
+			// 第一次浏览商品
+			Cookie c = new Cookie("history",id);
+			c.setPath("/day11");
+			c.setMaxAge(60*60*24*7);
+			response.addCookie(c);
+		}else{
+			// 不是第一次浏览
+			// 判断选择的商品是否已经在浏览记录中 2-1
+			String value = cookie.getValue();
+			String[] ids = value.split("-");
+			// 将数组变为集合：
+			LinkedList<String> list = new LinkedList<String>(Arrays.asList(ids));
+			if(list.contains(id)){
+				// 之前浏览过该商品
+				list.remove(id); // 1-2-3
+				list.addFirst(id);
+			}else{
+				// 没有浏览过该商品.
+				if(list.size() >=3 ){
+					// 超过3个
+					list.removeLast();
+					list.addFirst(id);
+				}else{
+					// 没到3个.
+					list.addFirst(id);
+				}
+			}
+			// 将list中的元素取出,使用-连接上保存到Cookie,写回浏览器.
+			StringBuffer sb = new StringBuffer();
+			for(String s:list){
+				sb.append(s).append("-");
+			}
+			String sValue = sb.toString().substring(0,sb.length()-1);
+			System.out.println(sValue);
+			// 存入到Cookie中
+			Cookie c = new Cookie("history",sValue);
+			c.setPath("/day11");
+			c.setMaxAge(60*60*24*7);
+			response.addCookie(c);
+		}
+		
+		request.getRequestDispatcher("/demo2/product_info.htm").forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+}
+```
+```java        //清空浏览记录
+删除持久性的Cookie:
+public class ClearServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cookie cookie = new Cookie("history",null);
+		cookie.setPath("/day11");
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);
+		
+		response.sendRedirect("/day11/demo2/product_list.jsp");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+```
+### 将商品添加到购物车
+```java
+步骤分析:
+【步骤一】：点击加入购物车提交到Servlet
+【步骤二】：在Servlet将购物的商品存入到Session中.
+【步骤三】：可以创建一个Map集合用于保存购物信息Map的key可以是商品的名称,Map的value是数量.
+【步骤四】：在购物车页面中显示Map中的数据就可以.
+public class CartServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 接收商品名称:
+		String name = new String(request.getParameter("name").getBytes("ISO-8859-1"),"UTF-8");
+		// 创建Map集合用于保存购物信息.Map<String,Integer> Map的key是商品的名称 value是购买的数量.
+		Map<String,Integer> map = (Map<String, Integer>) request.getSession().getAttribute("cart");
+		if(map == null){
+			map = new LinkedHashMap<String,Integer>();
+		}
+		// 判断购物车中是否已经买了该商品.
+		if(map.containsKey(name)){
+			// map中已经有该商品:// * 如果购物车中已经有该商品: 获得到Map中该商品的数量+1。 存回到Map集合中.
+			Integer count = map.get(name);
+			count++;
+			map.put(name, count);
+		}else{
+			// map中没有该商品.// * 如果购物车中没有改商品: 将商品添加到Map集合中 数量1.
+			map.put(name, 1);
+		}
+		
+		
+		// * 将Map集合保存到session中.
+		request.getSession().setAttribute("cart", map);
+		response.setContentType("text/html;charset=UTF-8");
+		response.getWriter().println("<h3><a href='/day11/demo2/product_list.jsp'>继续购物</a> | <a href='/day11/demo2/cart.jsp'>去结算</a></h3>");
+	}
+```
+### 进行一次性验证码的校验
+需求：在登录的页面中，需要有一个验证码的校验.
+```java
+步骤分析:
+【步骤一】：生成验证码,将生成验证码的随机的4个字母或数字保存到session中.
+【步骤二】：在页面中输入验证码值,点提交.
+【步骤三】：在Servlet中从表单中获得验证码从session中获得一个验证码.
+【步骤四】：比对两个验证码值是否一致.
+【步骤五】：将session中保存的验证码清空.
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 校验验证码程序:
+		String code1 = request.getParameter("code");
+		String code2 = (String) request.getSession().getAttribute("code");
+		request.getSession().removeAttribute("code");
+		if(!code1.equalsIgnoreCase(code2)){
+			request.setAttribute("msg", "验证码输入错误！");
+			request.getRequestDispatcher("/demo2/login.jsp").forward(request, response);
+			return ;
+		}
+   ...
+}
+
+//使用JS控制图片切换:
+ <script type="text/javascript">
+ 	function changeImg(){
+ 		document.getElementById("img1").src="/day11/CheckImgServlet?time="+new Date().getTime();
+ 	}
+ </script>
+```
