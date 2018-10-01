@@ -1,3 +1,32 @@
+<!-- GFM-TOC -->
+* [一、HTTP的协议](#一http的协议)
+* [二、HTTP协议的详解](#二http协议的详解)
+    * [请求部分](#请求部分)
+    * [响应部分](#响应部分)
+* [三、Servlet的概述](#三servlet的概述)
+    * [什么是Servlet](#什么是servlet)
+    * [Servlet的作用](#servlet的作用)
+    * [使用Servlet](#使用servlet)
+    * [Servlet的入门](#servlet的入门)
+    * [代码实现](#代码实现)
+    * [Servlet的生命周期](#servlet的生命周期)
+    * [登录成功以后5秒钟跳转到另一个页面](#登录成功以后5秒钟跳转到另一个页面)
+    * [记录网站的登录成功的人数](#记录网站的登录成功的人数)
+    * [ServletConfig](#servletconfig)
+* [四、requet&response](#四requet&response)
+    * [Response](#response)
+    * [Request](#request)
+    * [response处理中文乱码](#response处理中文乱码)
+    * [文件下载](#文件下载)
+    * [步骤分析](#步骤分析)
+    * [网站的注册的功能的实现](#网站的注册的功能的实现)
+* [五、Cookie&Session](#五cookie&session)
+    * [记录用户的上次登陆访问时间](#记录用户的上次登陆访问时间)
+    * [Cookie技术的使用](#cookie技术的使用)
+    * [JSP的简单概述](#jsp的简单概述)
+    * [JSP的执行过程](#jsp的执行过程)
+    * [Cookie的常用API](#cookie的常用api)
+<!-- GFM-TOC -->
 # 一、HTTP的协议
 协议:
 * 什么是协议:规定双方需要遵守的规则.
@@ -59,16 +88,16 @@
 ### 响应体:显示浏览器的页面的内容.
 
 # 三、Servlet的概述
-## 什么是Servlet:
+## 什么是Servlet
 * 就是一个运行在WEB服务器上的小的Java程序,用来接收和响应从客户端发送过来的请求,通常使用HTTP协议.
 * Servlet就是SUN公司提供的一个动态网页开发技术.
-## Servlet的作用：
+## Servlet的作用
 * 用来处理从客户端浏览器发送的请求,并且可以对请求作出响应
-## 使用Servlet：
+## 使用Servlet
 * 编写一个类实现Servlet接口.
 * 将编写的这个类配置到服务器中.
-## Servlet的入门:
-### 编写类：
+## Servlet的入门
+### 编写类
 public class ServletDemo1 implements Servlet{
 
 	@Override
@@ -111,7 +140,7 @@ http://localhost:8080/day09/ServletDemo1
 
 编写Servlet-->Service-->DAO
 
-## Servlet的生命周期:(*****)
+## Servlet的生命周期
 ### 生命周期:就是一个对象从创建到销毁的过程.
 ### Servlet生命周期:Servlet从创建到销毁的过程.
 * 何时创建:用户第一次访问Servlet创建Servlet的实例
@@ -159,10 +188,10 @@ url-pattern配置方式共有三种:
 
 如果访问地址:
 http://localhost:8080/day09/ServletDemo4		:第一个
-http://localhost:8080/day09/aaa.do				:第二个
+http://localhost:8080/day09/aaa.do			:第二个
 *****　完全路径匹配 > 目录匹配 > 扩展名匹配
 ```
-## 登录成功以后5秒钟跳转到另一个页面.
+## 登录成功以后5秒钟跳转到另一个页面
 ### 使用Http协议中的Refresh头信息
 Refresh之前已经介绍可以定时页面跳转.需要使用程序设置头信息才可以.
 ### response中设置响应头
@@ -234,7 +263,7 @@ public class UserRefreshServlet extends HttpServlet {
 	}
 </script>
 ```
-## 记录网站的登录成功的人数.
+## 记录网站的登录成功的人数
 需求:登录成功后,5秒后跳转到某个页面,在页面中显示您是第x位登录成功的用户.
 ```java      //登录代码的Servlet
 public class UserCountServlet extends HttpServlet {
@@ -306,13 +335,15 @@ public class CountServlet extends HttpServlet {
 	}
 }
 ```
-## ServletConfig:了解.获得Servlet的配置信息.
+## ServletConfig
+了解.获得Servlet的配置信息
+```jav
 String getServletName();		---获得Servlet在web.xml中配置的name的值.
 
 String getInitParameter(String name);	---获得Servlet的初始化参数的.
 
 Enumeration getInitParameterNames();		---获得所有Servlet的初始化参数的名称.
-
+```
 ### ServletContext:重要
 #### ServletContext的作用:
 ##### 用来获得全局初始化参数.
@@ -325,7 +356,7 @@ ServletContext是一个域对象.
 
 ##### 用来读取web项目下的文件.
 
-# 三、requet&response
+# 四、requet&response
 ## Response
 通过response设置状态码：setStatus(int status);
 
@@ -390,7 +421,7 @@ response.setContentType("text/html;charset=UTF-8");相当于上面两句
     * Content-Type:文件MIME的类型.
     * Content-Dispostion:
     * 文件的输入流:
-## 步骤分析：
+## 步骤分析
 之前的登录案例已经存在
 
 登录成功跳转的页面上提供一组链接
@@ -528,7 +559,7 @@ request.getRequestDispatcher(String path).forward(request,response);
 
 登录失败就可以保存一个错误信息到request中在动态页面中取出这个值${msg}
 
-# 四、Cookie&Session
+# 五、Cookie&Session
 ## 记录用户的上次登陆访问时间
 ### 需求:
 用户登录完成后,显示您是第x位访问的用户,您的上次访问时间是:yyyy-MM-dd.
@@ -551,7 +582,7 @@ request.getRequestDispatcher(String path).forward(request,response);
 参见图一和图二
 使用会话技术:
 
-## Cookie技术的使用】
+## Cookie技术的使用
 向浏览器保存数据:
 HttpServletResponse有一个方法:
 * void addCookie(Cookie cookie);
@@ -620,8 +651,8 @@ public class CountServlet extends HttpServlet {
 
 }
 ```
-## Cookie的常用API:
-### Cookie的常用的API：
+## Cookie的常用API
+### Cookie的常用的API
 ```java
 * getName();
 * getValue();
