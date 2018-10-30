@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <bean id="screwDriver" class="com.ScrewDriver">
+   </bean>
+   
+   <bean id="header" class="com.StrightHeader">
+       <!--  第一种方式
+       <constructor-arg value="red"></constructor-arg>
+       <constructor-arg value="15"></constructor-arg> 
+       -->
+       <!-- 第二种方式
+       <constructor-arg index="1" value="15"></constructor-arg>
+       <constructor-arg index="0" value="red"></constructor-arg> 
+       -->
+       <!-- 第三种方式
+       <constructor-arg type="int" value="15"></constructor-arg>
+       <constructor-arg type="java.lang.String" value="red"></constructor-arg> 
+       -->
+      <!-- 第四种方式 -->
+       <constructor-arg name="size" value="15"></constructor-arg>
+       <constructor-arg name="color" value="red"></constructor-arg>
+   </bean>
+
+</beans>
