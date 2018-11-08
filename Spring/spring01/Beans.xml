@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <bean id="screwDriver" class="com.ScrewDriver">
+       <constructor-arg>
+           <ref bean="header"/>
+       </constructor-arg>
+   </bean>
+   
+   <bean id="header" class="com.StrightHeader">
+       <constructor-arg name="color" value="${color}"></constructor-arg>
+       <constructor-arg name="size" value="${size}"> 
+       <!-- 
+           <map>
+               <entry key="color" value="red"></entry>
+               <entry key="size" value="14"></entry>
+           </map>
+       -->
+       <!-- 
+           <list>
+               <value>red</value>
+               <value>14</value>
+           </list>
+        -->
+        <!-- 
+           <set>
+               <value>red</value>
+               <value>14</value>
+           </set>
+        -->
+        <!-- 
+           <props>
+               <prop key="color">red</prop>
+               <prop key="size">14</props>
+           </props>
+         -->
+      </constructor-arg>
+   </bean>
+   
+   <bean id="headerProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+       <property name="location" value="classpath:header.properties"/>
+   </bean>
+
+</beans>
