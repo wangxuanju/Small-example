@@ -1,5 +1,3 @@
-package com.imooc.collection;
-
 import java.util.HashSet;
 import java.util.Set;
 
