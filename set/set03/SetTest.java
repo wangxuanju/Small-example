@@ -3,6 +3,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+//coursesToSelect.indexOf()通过indexOf方法来取得某元素的索引位置
+//coursesToSelect.contains()
+
 public class SetTest {
 
 	public List<Course> coursesToSelect;
