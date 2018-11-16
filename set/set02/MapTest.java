@@ -1,10 +1,10 @@
-package com.imooc.collection;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
+
+
 
 public class MapTest {
 
