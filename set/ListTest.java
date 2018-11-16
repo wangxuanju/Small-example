@@ -1,5 +1,3 @@
-package com.imooc.collection;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -7,9 +5,12 @@ import java.util.List;
 
 /**
  * 备选课程类
- * @author Administrator
  *
  */
+//方法Arrays.asList(courses)的作用?
+//Iterator<Course> it = coursesToSelect.iterator();
+//it.hasNext()
+
 public class ListTest {
 
 	/**
