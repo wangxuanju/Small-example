@@ -4,6 +4,14 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
 
+//Set<String> keySet = students.keySet();
+//Set<Entry<String, Student>> entrySet = students.entrySet();
+//entry.getKey()
+//entry.getValue()
+// 用students.containsValue()方法，来判断是否包含某个Value值
+// 在Map中，用containsKey()方法，来判断是否包含某个Key值
+//students.put()
+
 public class MapTest {
 
 	/**
