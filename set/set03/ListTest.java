@@ -1,13 +1,15 @@
-package com.imooc.collection;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+
+//Arrays.asList(course2)
+//Iterator<Course> it = coursesToSelect.iterator();
+//it.hasNext()
+
 /**
  * 备选课程类
- *
  */
 public class ListTest {
 
