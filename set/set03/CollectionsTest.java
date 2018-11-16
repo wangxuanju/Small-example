@@ -1,9 +1,10 @@
-package com.imooc.collection;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
+//integerList.contains(k)
+//Collections.sort(stringList);
 
 /**
  * 将要完成：
@@ -97,5 +98,4 @@ public class CollectionsTest {
 //		ct.testSort2();
 		ct.testSort3();
 	}
-
 }
