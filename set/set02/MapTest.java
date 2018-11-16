@@ -4,7 +4,9 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.Set;
 
-
+//students.keySet()
+//entry.getKey();
+//gentry.getValue();
 
 public class MapTest {
 
