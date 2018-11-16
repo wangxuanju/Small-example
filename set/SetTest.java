@@ -74,7 +74,7 @@ public class SetTest {
 		st.testAdd();
 		st.testForEach();
 		// 创建一个学生对象
-		Student student = new Student("1", "小明");
+		Student student = new Student("1", "小明");              //student
 		System.out.println("欢迎学生：" + student.name + "选课！");
 		// 创建一个Scanner对象，用来接收从键盘输入的课程ID
 		Scanner console = new Scanner(System.in);
@@ -98,7 +98,7 @@ public class SetTest {
 
 	public void testForEachForSet(Student student) {
 		// 打印输出，学生所选的课程！
-		System.out.println("共选择了：" + student.courses.size() + "门课程！");
+		System.out.println("共选择了：" + student.courses.size() + "门课程！");  //深入理解student.courses
 		for (Course cr : student.courses) {
 			System.out.println("选择了课程：" + cr.id + ":" + cr.name);
 		}
