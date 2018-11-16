@@ -2,7 +2,6 @@ package com.imooc.collection;
 
 /**
  * 课程类
- * @author Administrator
  *
  */
 public class Course {
