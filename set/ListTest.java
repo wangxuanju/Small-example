@@ -97,7 +97,7 @@ public class ListTest {
 	public void testForEach() {
 		System.out.println("有如下课程待选(通过for each访问)：");
 		for (Object obj : coursesToSelect) {
-			Course cr = (Course) obj;
+			Course cr = (Course) obj;  //这一句运行时保错？？？
 			System.out.println("课程：" + cr.id + ":" + cr.name);
 		}
 	}
