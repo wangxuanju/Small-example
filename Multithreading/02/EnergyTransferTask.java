@@ -17,7 +17,7 @@ public class EnergyTransferTask implements Runnable{
 	
 	public void run() {
 		try{
-			while (true){
+			while (true){                  
 				int toBox = (int) (energySystem.getBoxAmount()* Math.random());//能量盒子的长度*随机数（大于0小于1）
 				double amount = maxAmount * Math.random();  //单次能量转移最大单元*随机数（大于0小于1）
 				energySystem.transfer(fromBox, toBox, amount);
