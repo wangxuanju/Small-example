@@ -22,9 +22,9 @@ public class EnergySystem {
 	 
 	 /**
 	  * 能量的转移，从一个盒子到另一个盒子
-	  * @param from 能量源
-	  * @param to     能量终点 
-	  * @param amount 能量值
+	  * from 能量源
+	  * to     能量终点
+	  * amount 能量值（转移的能量值）
 	  */
 	 public void transfer(int from, int to, double amount){
 		 
